@@ -71,7 +71,7 @@ class CollectionsTests {
 
 	@Test
 	void tallest_child_example_via_collections_without_generics() {
-        ArrayList childrensHeights = new ArrayList<>();
+        List childrensHeights = new ArrayList();
         childrensHeights.add(95);
         childrensHeights.add(103);
         Collections.addAll(childrensHeights, 147, 110);
