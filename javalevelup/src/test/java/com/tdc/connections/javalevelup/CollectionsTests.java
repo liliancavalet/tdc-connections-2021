@@ -64,10 +64,28 @@ class CollectionsTests {
 	}
 
 	@Test
-	void tallest_child_example_showing_collections_imutability() {
-        List<Integer> childrensHeights = Arrays.asList(95);
-		assertThrows(UnsupportedOperationException.class, () -> childrensHeights.add(103));
+	void tallest_child_example_showing_collections_unmodifiable() {
+        List<Integer> childrensHeights = new ArrayList<>();
+        childrensHeights.add(95);
+        childrensHeights.add(103);
+        Collections.addAll(childrensHeights, 147, 110);
+
+        List<Integer> childrensHeightsUnmodifiableList = Collections.unmodifiableList(childrensHeights);
+        assertThrows(UnsupportedOperationException.class, () -> childrensHeightsUnmodifiableList.add(111));
+
+        childrensHeights.add(111);
+        assertEquals(childrensHeights, Arrays.asList(95, 103, 147, 110, 111));
 	}
+
+    @Test
+    void tallest_child_example_showing_collections_arrays_as_list_usage() {
+        List<Integer> childrensHeightsViaArrayAsList = Arrays.asList(95, 103, 147, 110);
+        assertThrows(UnsupportedOperationException.class, () -> childrensHeightsViaArrayAsList.add(111));
+
+        List<Integer> childrensHeightsViaArrayList = new ArrayList<>(Arrays.asList(95, 103, 147, 110));
+        childrensHeightsViaArrayList.add(111);
+        assertEquals(childrensHeightsViaArrayList, Arrays.asList(95, 103, 147, 110, 111));
+    }
 
 	@Test
 	void tallest_child_example_via_collections_without_generics() {
@@ -75,7 +93,7 @@ class CollectionsTests {
         childrensHeights.add(95);
         childrensHeights.add(103);
         Collections.addAll(childrensHeights, 147, 110);
-        int tallest = (Integer) childrensHeights.get(0);
+        Integer tallest = (Integer) childrensHeights.get(0);
         for(Object height : childrensHeights) {
             if (tallest < (Integer) height) {
                 tallest = (Integer) height;
